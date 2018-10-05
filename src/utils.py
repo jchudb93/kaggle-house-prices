@@ -47,3 +47,21 @@ def get_high_correlations(df, size=15, threshold=0.5):
     #Print correlations and column names
     for v,i,j in s_corr_list:
         print ("%s and %s = %.2f" % (cols[i],cols[j],v))
+
+def plot_high_correlations(df, size=15, threshold=0.5):
+    
+    get_high_cprrelations(df, size=15, threshold=0.5 )
+    for v,i,j in s_corr_list:
+        sns.pairplot(df, size=6, x_vars=cols[i],y_vars=cols[j] )
+        plt.show()
+        
+def plot_categorical_hist(df, n_cols=4, n_rows=10, figsize=(12,8)):
+    
+    
+    cols = df.select_dtypes(exclude=np.number).columns
+
+    #Plot count plot for all attributes in a 29x4 grid
+    for i in range(n_rows):
+        fg,ax = plt.subplots(nrows=1,ncols=n_cols,sharey=True,figsize=figsize)
+        for j in range(n_cols):
+            sns.countplot(x=cols[i*n_cols+j], data=df, ax=ax[j])
