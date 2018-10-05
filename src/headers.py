@@ -1,11 +1,10 @@
-%load_ext autoreload
-%autoreload 2
-%matplotlib inline
-%config InlineBackend.figure_format = 'retina'
-
 import os, math
 import numpy as np, pandas as pd
 import matplotlib.pyplot as plt, seaborn as sns
+
+import warnings
+warnings.filterwarnings('ignore')
+
 from pandas_summary import DataFrameSummary
 from tqdm import tqdm, tqdm_notebook
 from pathlib import Path
