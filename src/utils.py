@@ -12,6 +12,10 @@ def get_numeric_features(df):
     
     return pd.DataFrame(df.select_dtypes(np.number))
 
+def get_cat_features(df):
+    
+    return pd.DataFrame(df.select_dtypes(include='object'))
+
 def plot_violins(df, n_cols=2, n_rows=7, figsize=(12,8)):
     
     """
@@ -47,10 +51,15 @@ def get_high_correlations(df, size=15, threshold=0.5):
     #Print correlations and column names
     for v,i,j in s_corr_list:
         print ("%s and %s = %.2f" % (cols[i],cols[j],v))
+    
+    return s_corr_list
 
 def plot_high_correlations(df, size=15, threshold=0.5):
     
-    get_high_cprrelations(df, size=15, threshold=0.5 )
+    data_corr = get_numeric_features(df).corr()
+    cols = data_corr.columns
+    s_corr_list = get_high_correlations(df, size=15, threshold=threshold)
+    
     for v,i,j in s_corr_list:
         sns.pairplot(df, size=6, x_vars=cols[i],y_vars=cols[j] )
         plt.show()
@@ -65,3 +74,10 @@ def plot_categorical_hist(df, n_cols=4, n_rows=10, figsize=(12,8)):
         fg,ax = plt.subplots(nrows=1,ncols=n_cols,sharey=True,figsize=figsize)
         for j in range(n_cols):
             sns.countplot(x=cols[i*n_cols+j], data=df, ax=ax[j])
+            
+def count_missing(df):
+    
+    total = df.isnull().sum().sort_values(ascending=False)
+    percent = (df.isnull().sum()/df.isnull().count()).sort_values(ascending=False)
+    missing_data = pd.concat([total, percent], keys=['Total', 'Percent'], axis=1)
+    return missing_data

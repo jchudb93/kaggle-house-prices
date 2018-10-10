@@ -11,7 +11,7 @@ from pathlib import Path
 pd.set_option('display.max_columns', 1000)
 sns.set()
 
-os.chdir('..')
+# os.chdir('..')
 from src import utils
 
 # Classifiers
